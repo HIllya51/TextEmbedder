@@ -89,7 +89,7 @@ EngineController *EngineFactory::createEngine()
     , new CatSystemEngine
     , new BGIEngine
     , new ARCGameEngine
-    , new kirikirizEngine
+    , new  KiriKiriZEngine
   };
   for each (EngineModel *m in models) {
     auto p = new EngineController(m);

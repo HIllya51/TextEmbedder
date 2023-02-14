@@ -105,6 +105,7 @@
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Qt\5.15.2\msvc2019\include\QtNetwork;C:\Qt\5.15.2\msvc2019\include\QtCore;C:\Qt\5.15.2\msvc2019\include\;C:\Qt\5.15.2\msvc2019\include\QtNetwork\5.15.2;C:\Qt\5.15.2\msvc2019\include\QtNetwork\5.15.2\QtNetwork;C:\Qt\5.15.2\msvc2019\include\QtCore\5.15.2;C:\Qt\5.15.2\msvc2019\include\QtCore\5.15.2\QtCore;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>vnragent</TargetName>

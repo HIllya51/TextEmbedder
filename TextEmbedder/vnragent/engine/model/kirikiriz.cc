@@ -1,68 +1,28 @@
-// mono.cc
-// 7/27/2015 jichi
-// https://github.com/mono/mono/blob/master/mono/metadata/object.h
-#include "engine/model/kirikiriz.h"
+
+
+// krkrz.cc
+// 6/15/2015 jichi
+// About MES and Silky's arc
+// See: http://www.dsl.gr.jp/~sage/mamitool/case/elf/aishimai.html
+// MES: http://tieba.baidu.com/p/2068362185
+#include "engine/model/elf.h"
 #include "engine/enginecontroller.h"
 #include "engine/enginedef.h"
 #include "engine/enginehash.h"
 #include "engine/engineutil.h"
-
 #include "hijack/hijackmanager.h"
-//#include "util/textutil.h"
-//#include "hijack/hijackmanager.h"
-#include "cpputil/cppcstring.h"
-#include "memdbg/memsearch.h"
-#include"ithsys/ithsys.h"
-#include "mono/monoobject.h"
-//#include "mono/monotype.h"
 #include "winhook/hookcode.h"
-#include "unistr/unichar.h"
-//#include "winhook/hookfun.h"
-//#include "ntdll/ntdll.h"
+#include"winhook/hookfun.h"
+#include "memdbg/memsearch.h"
+#include"util/dyncodec.h"
+#include"ithsys/ithsys.h"
+#include "winasm/winasmdef.h"
+#include"hijack/hijackfuns.h"
+#include<unordered_set>
 #include <qt_windows.h>
-#include <QtCore/QSet>
-#include <cstdint>
-#include <unordered_set>
-
-#define DEBUG "model/mono"
-#include "sakurakit/skdebug.h"
-
-//#pragma intrinsic(_ReturnAddress)
-
-namespace { // unnamed
-
-    class TextHook
-    {
-        typedef TextHook Self;
-
-        QByteArray data_; // persistent storage, which makes this function not thread-safe
-        int role_;
-
-        bool hookBefore(winhook::hook_stack* s)
-        {
-            auto text = (LPCSTR)s->stack[1]; // text in arg1
-            if (!text || !*text)
-                return true;
-            auto split = s->stack[0]; // retaddr
-            auto sig = Engine::hashThreadSignature(role_, split);
-            data_ = EngineController::instance()->dispatchTextA(text, role_, sig);
-            s->stack[1] = (ulong)data_.constData(); // reset arg1
-            return true;
-        }
-
-    public:
-        explicit TextHook(int role) : role_(role) {}
-
-        bool attach(const uint8_t* pattern, size_t patternSize, ulong startAddress, ulong stopAddress)
-        {
-            ulong addr = MemDbg::findBytes(pattern, patternSize, startAddress, stopAddress);
-            return addr
-                && (addr = MemDbg::findEnclosingAlignedFunction(addr))
-                && winhook::hook_before(addr,
-                    std::bind(&Self::hookBefore, this, std::placeholders::_1));
-        }
-    };
-}
+#include"engine/model/kirikiriz.h"
+#define DEBUG "krkrz"
+#include "sakurakit/skdebug.h"   
 namespace { // unnamed
     bool SearchResourceString(LPCWSTR str)
     {
@@ -107,51 +67,112 @@ namespace { // unnamed
         }
         return false;
     }
-}
+     
+} 
+ 
+namespace { // unnamed
+    class ScenarioHook {
 
-bool kirikirizEngine::match() {
+    public:
+        explicit ScenarioHook(int role) : role_(role) {}
+
+        typedef ScenarioHook Self;
+        bool attach()
+        {
+            ulong startAddress, stopAddress;
+            //getMemoryRange(&startAddress, &stopAddress);
+            Engine::getProcessMemoryRange(&startAddress, &stopAddress);
+             
+            const BYTE bytes[] = { 
+               
+                //0x38,0x4b, 0x21,     0x0f,0x95,0xc1,      0x33,0xc0,           0x38,0x43, 0x20,     0x0f,0x95,0xc0,      0x33,0xc8,           0x33,0x4b, 0x10,     0x0f,0xb7,0x43, 0x14  //textractor,每个字都会跑n遍这个函数
+             /*  0x8b,0x00,
+               0x85,0xc0,
+               0x74,0x0c,
+               0x8b,0x78,0x04,
+               0x85,0xff */  //显示文字
+              /*  0x8b,0x00,
+                0x85,0xc0,
+                0x74,0x0f,
+                0x8b,0x78,0x04,
+                0x89,0x7d,0x20*/ //显示名字
+
+               /* 0x8a,0x86,0x50,0x01,0x00,0x00,
+                0x8b,0x4d,0x10,
+                0x88,0x44,0x24,0x10,
+                0x8b,0x01,
+                0x85,0xc0,
+                0x74,0x4a*/
+                0x8b,0x86,0x48,0x01,0x00,0x00,
+                0x8b,0x5d,0x18,
+                0x83,0xe8,0x00,
+                0x74,0x69,
+                0x48   //sub_B64260
+                /*B6D2E0
+                ……
+                b6d486   call sub_B64260*/
+              
+            };
+            ULONG range = min(stopAddress - startAddress, 0x00300000);
+            ULONG addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress + range);
+             
+            return false && addr
+                && (addr = MemDbg::findEnclosingAlignedFunction(addr))
+                && winhook::hook_before(addr,
+                std::bind(&Self::hookBefore, this, std::placeholders::_1));
+
+        } 
+         
+        bool getMemoryRange(ulong* startAddress, ulong* stopAddress)
+        { 
+            *startAddress = *stopAddress = (uintptr_t)GetModuleHandleW(nullptr);
+            
+            MEMORY_BASIC_INFORMATION info;
+            do
+            {
+                VirtualQuery((void*)stopAddress, &info, sizeof(info));
+                *stopAddress = (uintptr_t)info.BaseAddress + info.RegionSize;
+            } while (info.Protect > PAGE_NOACCESS);
+            *stopAddress -= info.RegionSize;
+            return true;
+        }
+        std::unordered_set<LPCSTR> translatedTexts_;
+        bool hookBefore(winhook::hook_stack* s)
+        { 
+           /* char x[10];
+            sprintf(x, "arg3 %s", (LPCSTR)(s->stack[1]));
+            DOUT(x);*/
+           // MessageBoxA(0, "", "", MB_OK);
+            //auto text = (LPCSTR)s->stack[1]; // text in arg1
+            //if (!text || !*text)
+            //    return true;
+            //auto split = s->stack[0]; // retaddr
+            //auto sig = Engine::hashThreadSignature(role_, split);
+            //data_ = EngineController::instance()->dispatchTextA(text, role_, sig);
+            //s->stack[1] = (ulong)data_.constData(); // reset arg1
+            return true;
+        }
+         
+        QByteArray data_; // persistent storage, which makes this function not thread-safe
+        int role_;
+
+    }; // namespace ScenarioHook
+} // unnamed namespace
+bool KiriKiriZEngine::match() {
     if ( ::CheckFile(L"*.xp3") ||  ::SearchResourceString(L"TVP(KIRIKIRI)")) {
-        if (::SearchResourceString(L"TVP(KIRIKIRI) Z ")) { // TVP(KIRIKIRI) Z CORE
-        // jichi 11/24/2014: Disabled that might crash VBH
-        //if (Util::CheckFile(L"plugin\\KAGParser.dll"))
-        //  InsertKAGParserHook();
-        //else if (Util::CheckFile(L"plugin\\KAGParserEx.dll"))
-        //  InsertKAGParserExHook();
-        
+        if (::SearchResourceString(L"TVP(KIRIKIRI) Z ")) {  
+            DOUT("kirikiriz matched");
             return true;
         } 
-  }
+    }
     return false;
 }
-bool kirikirizEngine::attach()
+bool KiriKiriZEngine::attach()
 {
-    return false;
-  //  ulong startAddress, stopAddress;
-  //  if (!Engine::getProcessMemoryRange(&startAddress, &stopAddress)) {
-  //      DOUT("cannot getProcessMemoryRange");
-  //      return false;
-  //  }
-
-  //  const BYTE bytes[] = {
-  //  0x38,0x4b, 0x21,     // 0122812f   384b 21          cmp byte ptr ds:[ebx+0x21],cl
-  //  0x0f,0x95,0xc1,      // 01228132   0f95c1           setne cl
-  //  0x33,0xc0,           // 01228135   33c0             xor eax,eax
-  //  0x38,0x43, 0x20,     // 01228137   3843 20          cmp byte ptr ds:[ebx+0x20],al
-  //  0x0f,0x95,0xc0,      // 0122813a   0f95c0           setne al
-  //  0x33,0xc8,           // 0122813d   33c8             xor ecx,eax
-  //  0x33,0x4b, 0x10,     // 0122813f   334b 10          xor ecx,dword ptr ds:[ebx+0x10]
-  //  0x0f,0xb7,0x43, 0x14 // 01228142   0fb743 14        movzx eax,word ptr ds:[ebx+0x14]
-  //}; 
-
-  //ULONG addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress);
-  ////GROWL_DWORD(addr);
-  //if (!addr) {
-  //  DOUT("vnreng:KiriKiriZ2: pattern not found");
-  //  return false;
-  //}
-
-  //static auto h = new TextHook(Engine::ScenarioRole); // never deleted
-  //return h->attach(bytes, sizeof(bytes), startAddress, stopAddress) || h->attach(bytes, sizeof(bytes), startAddress, stopAddress);
-  //HijackManager::instance()->attachFunction((ulong)::GetGlyphOutlineA);
-  //return true;
-}  
+    static auto h = new ScenarioHook(Engine::ScenarioRole); // never deleted
+    if (!h->attach())
+        return false;
+    HijackManager::instance()->attachFunction((ulong)::GetGlyphOutlineW);
+    return true;
+}
+ 

@@ -11,14 +11,12 @@ namespace Util {
 // Location of ~/Desktop
 QString desktopLocation();
 
-// Directory of QtCore4.dll
+// Directory of Qt5Core.dll// QtCore4.dll
 QString qtLocation();
 
-// Parent directory of QtCore4.dll
+// Parent directory of Qt5Core.dll// QtCore4.dll
 QString qtPrefix();
-
-// VNR root directory
-QString vnrLocation();
+ 
 
 } // namespace Util
 

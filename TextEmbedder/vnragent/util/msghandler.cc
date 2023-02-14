@@ -25,7 +25,7 @@ QString Util::debugFileLocation()
 {
   static QString ret;
   if (ret.isEmpty()) {
-    ret = vnrLocation();
+     
     if (ret.isEmpty())
       ret = desktopLocation();
     if (!ret.isEmpty())

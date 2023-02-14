@@ -45,25 +45,11 @@ QString Util::qtLocation()
 {
   static QString ret;
   if (ret.isEmpty())
-    ret = ::dirname(::getModulePath("QtCore4.dll"));
+    ret = ::dirname(::getModulePath("Qt5Core.dll"));
   return ret;
 }
 
 QString Util::qtPrefix() { return ::dirname(qtLocation()); }
-
-QString Util::vnrLocation()
-{
-  static QString ret;
-  if (ret.isEmpty())
-    ret =
-      ::dirname( // VNR
-      ::dirname( // VNR/Library
-      ::dirname( // VNR/Library/Frameworks
-      ::dirname( // VNR/Library/Frameworks/Qt
-      ::dirname( // VNR/Library/Frameworks/Qt/PySide
-      ::getModulePath("QtCore4.dll") // VNR/Library/Frameworks/Qt/PySide/QtCore4.dll
-    )))));
-  return ret;
-}
+ 
 
 // EOF
