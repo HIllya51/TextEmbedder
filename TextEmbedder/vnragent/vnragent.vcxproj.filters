@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="engine\model\age.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\aoi.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\bgi.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\circus.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\cmvs.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\codepage.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\cotopha.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\cs2.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\debonosu.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\dyncodec.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\elf.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="embed\embeddriver.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="embed\embedmanager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="embed\embedmemory.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\enginecontroller.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\enginefactory.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\engineutil.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\escude.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\fvp.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="growl.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\gxp.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackdriver.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackfuns.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackhelper.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackmanager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackmodule.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackmodule_kernel32.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hijack\hijackmodule_user32.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\i18n.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\lcse.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\leaf.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loader.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\location.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\lova.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\lucifen.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\luna.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\maindriver.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\malie.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\minori.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\mono.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\msghandler.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\nexton.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\nitro.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\pal.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\pensil.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\qlie.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\retouch.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\rgss.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\rio.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\rpcclient.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="driver\settings.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\siglus.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\silkys.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\system4.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\system43.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\system44.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\taskforce.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\textutil.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\unicorn.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\waffle.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\will.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window\windowdriver.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window\windowdriver_p.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window\windowmanager.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\wolf.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\memdbg\memsearch.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\qtsocketsvc\socketpipe_win.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\winhook\hookcode.cc" />
+    <ClCompile Include="..\libs\winhook\hookutil.cc" />
+    <ClCompile Include="..\libs\winhook\hookutil_p.cc" />
+    <ClCompile Include="..\libs\disasm\disasm.cc" />
+    <ClCompile Include="..\libs\winhook\hookfun.cc" />
+    <ClCompile Include="..\libs\winhook\hookcall.cc" />
+    <ClCompile Include="..\libs\qtembedplugin\codecmanager.cc" />
+    <ClCompile Include="..\libs\winsinglemutex\winsinglemutex.cc" />
+    <ClCompile Include="..\libs\dyncodec\dynsjis.cc" />
+    <ClCompile Include="..\libs\qtjson\qtjson.cc" />
+    <ClCompile Include="..\libs\ntinspect\ntinspect.cc" />
+    <ClCompile Include="..\libs\qtsocketsvc\localsocketclient.cc" />
+    <ClCompile Include="..\libs\qtsocketsvc\socketpack.cc" />
+    <ClCompile Include="..\libs\qtsocketsvc\socketio_p.cc" />
+    <ClCompile Include="..\libs\vnrsharedmemory\vnrsharedmemory.cc" />
+    <ClCompile Include="..\libs\qtembedplugin\pluginmanager.cc" />
+    <ClCompile Include="..\libs\qtrichruby\richrubyparser.cc" />
+    <ClCompile Include="..\libs\qtdyncodec\qtdynsjis.cc" />
+    <ClCompile Include="..\libs\windbg\util.cc" />
+    <ClCompile Include="..\libs\windbg\hijack.cc" />
+    <ClCompile Include="..\libs\winiter\winiter.cc" />
+    <ClCompile Include="..\libs\winiter\winiterps.cc" />
+    <ClCompile Include="..\libs\winiter\winitertl.cc" />
+    <ClCompile Include="..\libs\winquery\winquery.cc" />
+    <ClCompile Include="..\libs\libqxt\src\core\qxtglobal.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\libqxt\src\core\qxtjson.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\model\kirikiriz.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\ithsys\ithsys.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="engine\model\bgi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\circus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\cmvs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\codepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\cotopha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\cs2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\debonosu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\dyncodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\elf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="embed\embeddriver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="embed\embedmanager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="embed\embedmemory.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="engine\enginecontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\enginedef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\enginefactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\enginehash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\enginemodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\enginesettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\engineutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\escude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\fvp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="growl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\gxp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="hijack\hijackdriver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="hijack\hijackfuns.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="hijack\hijackhelper.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="hijack\hijackmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hijack\hijackmodule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hijack\hijackmodule_p.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hijack\hijacksettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\i18n.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\lcse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\leaf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\location.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\lova.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\lucifen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\luna.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="driver\maindriver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="driver\maindriver_p.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="engine\model\malie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\minori.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\mono.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\msghandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\nexton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\nitro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\pal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\pensil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\qlie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\retouch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\rgss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\rio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="driver\rpcclient.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="driver\settings.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="engine\model\siglus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\silkys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\system4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\taskforce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\textcache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\util\textunion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\textutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\unicorn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\waffle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\will.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="window\windowdriver.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="window\windowdriver_p.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="window\windowhash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="window\windowmanager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="engine\model\wolf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="driver\rpcclientprivate.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\libs\vnrsharedmemory\vnrsharedmemory.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\libs\qtsocketsvc\localsocketclient.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\libs\libqxt\src\core\qxtglobal.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\libs\libqxt\src\core\qxtjson.h">
+      <Filter>Generated Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

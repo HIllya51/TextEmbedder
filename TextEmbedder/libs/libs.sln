@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "disasm", "disasm\disasm.vcxproj", "{9D15B404-6D4D-3A4D-A3E4-2FCF8B2DBA21}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wintimer", "wintimer\wintimer.vcxproj", "{A44D1B5D-D1E2-3693-A075-FD9B8934FF1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D15B404-6D4D-3A4D-A3E4-2FCF8B2DBA21}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9D15B404-6D4D-3A4D-A3E4-2FCF8B2DBA21}.Debug|Win32.Build.0 = Debug|Win32
+		{9D15B404-6D4D-3A4D-A3E4-2FCF8B2DBA21}.Release|Win32.ActiveCfg = Release|Win32
+		{9D15B404-6D4D-3A4D-A3E4-2FCF8B2DBA21}.Release|Win32.Build.0 = Release|Win32
+		{A44D1B5D-D1E2-3693-A075-FD9B8934FF1F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A44D1B5D-D1E2-3693-A075-FD9B8934FF1F}.Debug|Win32.Build.0 = Debug|Win32
+		{A44D1B5D-D1E2-3693-A075-FD9B8934FF1F}.Release|Win32.ActiveCfg = Release|Win32
+		{A44D1B5D-D1E2-3693-A075-FD9B8934FF1F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		Qt5Version = 5.15.0_msvc2019
+		SolutionGuid = {3A698F70-7BBE-4039-891A-7A67F001C9BA}
+	EndGlobalSection
+EndGlobal
