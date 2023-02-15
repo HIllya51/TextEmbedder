@@ -222,6 +222,32 @@ namespace Private {
     return true;
   }
 
+  void dispatchScenarioText_navel(char* text, ulong split)
+  {
+      // text[0] could be \0
+      enum { role = Engine::ScenarioRole };
+        
+      auto sig = Engine::hashThreadSignature(role, split);
+
+       
+      QByteArray  newData = EngineController::instance()->dispatchTextA(text, role, sig);
+         
+      //::strcpy(text, newData.constData());
+      ::memcpy(text, newData.constData(), newData.size() + 1);
+       
+  }
+  bool hookBefore_navel(winhook::hook_stack* s)
+  { 
+      DOUT((char*)s->stack[1]); 
+      auto text = (char*)s->stack[1]; // text in arg1 
+      auto split = s->stack[0]; // retaddr
+      //auto sig = Engine::hashThreadSignature(Engine::ScenarioRole, split);
+      //QByteArray  data_ = EngineController::instance()->dispatchTextA(text, Engine::ScenarioRole, sig);
+      //s->stack[1] = (ulong)data_.constData(); // reset arg1
+      dispatchScenarioText_navel(text, split);
+      return true;
+  }
+
 } // namespace Private
 
 /**
@@ -589,6 +615,25 @@ bool attach(ulong startAddress, ulong stopAddress) // attach scenario
   if (!addr)
     return false;
   return winhook::hook_before(addr, Private::hookBefore);
+}
+bool attach_navel(ulong startAddress, ulong stopAddress) // attach scenario
+{
+    const uint8_t bytes[] = {
+      0x39,0x57,0x08,
+      0x0f,0x84,0x3f,0x02,0x00,0x00,
+      0x8b,0x87,0x74,0x20,0x00,0x00
+    };
+    ulong addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress);
+    if (addr == 0)return false;
+    char xx[100];
+    sprintf(xx, "findbytes  %d", addr);
+    DOUT(xx);
+    addr = MemDbg::findEnclosingAlignedFunction(addr);
+    if (!addr)
+        return false;
+    sprintf(xx, "findEnclosingAlignedFunction  %d", addr);
+    DOUT(xx);
+    return winhook::hook_before(addr, Private::hookBefore_navel);
 }
 } // namespace ScenarioHook
 
@@ -1096,7 +1141,7 @@ bool LucifenEngine::attach()
   ulong startAddress, stopAddress;
   if (!Engine::getProcessMemoryRange(&startAddress, &stopAddress))
     return false;
-  if (!ScenarioHook::attach(startAddress, stopAddress))
+  if ((!ScenarioHook::attach(startAddress, stopAddress)))//&& (!ScenarioHook::attach_navel(startAddress, stopAddress)))
     return false;
 
   if (ChoiceHook::attach(startAddress, stopAddress))
