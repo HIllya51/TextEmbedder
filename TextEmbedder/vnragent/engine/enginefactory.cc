@@ -43,7 +43,7 @@
 
 #include "engine/model/lova.h"
 #include "engine/model/kirikiriz.h"
-
+#include"engine/model/willplus3.h"
 #define DEBUG "enginefactory"
 #include "sakurakit/skdebug.h"
 
@@ -90,6 +90,7 @@ EngineController *EngineFactory::createEngine()
     , new BGIEngine
     , new ARCGameEngine
     , new  KiriKiriZEngine
+      ,new willplus3Engine
   };
   for each (EngineModel *m in models) {
     auto p = new EngineController(m);

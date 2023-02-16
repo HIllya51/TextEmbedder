@@ -339,6 +339,7 @@
     <ClCompile Include="engine\model\circus.cc" />
     <ClCompile Include="engine\model\cmvs.cc" />
     <ClCompile Include="engine\model\kirikiriz.cc" />
+    <ClCompile Include="engine\model\willplus3.cc" />
     <ClCompile Include="util\codepage.cc" />
     <ClCompile Include="engine\model\cotopha.cc" />
     <ClCompile Include="engine\model\cs2.cc" />
