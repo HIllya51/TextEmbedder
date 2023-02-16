@@ -12,7 +12,7 @@
 #include <qt_windows.h>
 #include <QtCore/QSet>
 #include <cstdint>
-
+#include<algorithm>
 #define DEBUG "model/wolf"
 #include "sakurakit/skdebug.h"
 
@@ -83,6 +83,32 @@ namespace Private {
       }
     }
     return true;
+  }
+
+  bool hookBefore_2(winhook::hook_stack* s)
+  {
+      DOUT(((LPCSTR)s->stack[0]));
+      DOUT(((LPCSTR)s->stack[1]));
+      DOUT(QString::fromUtf16((LPWSTR)s->stack[0]));
+      DOUT(QString::fromUtf16((LPWSTR)s->stack[1]));
+      char x[1000] = { 0 };
+      QString xx;
+      for (int i = 0; ((LPWSTR)s->stack[1])[i]; i++) {
+          itoa(((LPWSTR)s->stack[1])[i], x, 10);
+          xx.append(x); xx.append(" ");
+      }
+      DOUT(xx);
+      //if (!text || !*text)
+      //    return true;
+      //auto split = s->stack[0]; // retaddr
+      //auto sig = Engine::hashThreadSignature(1, split); 
+      //auto str = QString::fromUtf16((LPWSTR)s->stack[7]);
+      // 
+      //QString data_ = EngineController::instance()->dispatchTextW(str, 1, sig);
+      // 
+      //s->stack[0] = (ulong)(data_.utf16());
+      //return true;
+      return true;
   }
 
 } // namespace Private
@@ -587,6 +613,34 @@ bool attach(ulong startAddress, ulong stopAddress) // attach other text
   return addr && winhook::hook_before(addr, Private::hookBefore);
 }
 
+
+//bool attach_utsusemi(ulong startAddress, ulong stopAddress) // 空蝉コミュニクション
+//{ 
+//    char xx[100];
+//    sprintf(xx,"address %x %x", startAddress, stopAddress);
+//    DOUT(xx); 
+//    const BYTE bytes[] = {
+//          0x68,0xe6,0x52,0x81,0x00,
+//          0xb9,0xbc,0x6a,0xaa,0x00,
+//          0xe8,0x6d,0xe2,0x07,0x00
+//    };//0x00457B14 found by textractor
+//    ULONG range =std::min(stopAddress - startAddress, (ulong)0x00300000);
+//    ULONG addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress + range); 
+//    if (addr == 0)return false;
+//    sprintf(xx, "findBytes %x ", addr);
+//    DOUT(xx); 
+//    addr = MemDbg::findEnclosingAlignedFunction(addr);
+//    addr = MemDbg::findEnclosingAlignedFunction(addr-4);//恰好前面4个CC，再往前一点。
+//    if (addr == 0)return false; 
+//    sprintf(xx, "findBytes %x ", addr);
+//    DOUT(xx);
+//    return winhook::hook_before(addr, Private::hookBefore_2);
+//}
+bool attach_utsusemi(ulong startAddress, ulong stopAddress) // 空蝉コミュニクション
+{
+    ULONG addr = 0x00457B1E;
+    return winhook::hook_before(addr, Private::hookBefore_2);
+}
 } // namespace ScenarioHook
 
 } // unnamed namespace
@@ -598,7 +652,7 @@ bool WolfRPGEngine::attach()
   ulong startAddress, stopAddress;
   if (!Engine::getProcessMemoryRange(&startAddress, &stopAddress))
     return false;
-  if (!ScenarioHook::attach(startAddress, stopAddress))
+  if ((!ScenarioHook::attach(startAddress, stopAddress)))//&&(!ScenarioHook::attach_utsusemi(startAddress, stopAddress)))
     return false;
 
   HijackManager::instance()->attachFunction((ulong)::GetGlyphOutlineA); // for dynamic encoding
