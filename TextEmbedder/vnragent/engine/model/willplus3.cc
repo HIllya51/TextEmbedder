@@ -75,17 +75,13 @@ namespace { // unnamed
             };
             ULONG range = min(stopAddress - startAddress, 0x00300000);
             ULONG addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress + range);
-            if (addr == 0)return false;
-            char xx[100];
-            sprintf(xx, "findBytes %d", addr);
-            DOUT(xx);
-            addr = MemDbg::findEnclosingAlignedFunction(addr);
+            
             if (addr == 0)return false;
              
-            sprintf(xx, "findEnclosingAlignedFunction %d",  (addr));
-            DOUT(xx);
-            if(addr== 0x0043A120)
-                addr = 0x0043A150; //findEnclosingAlignedFunction 不知道为什么偏到更上面的0x0043A120上去了。不过发现ensemble几作的地址都一样，干脆硬编码了。
+            addr = MemDbg::findEnclosingFunctionBeforeDword(0x83dc8b53,addr, MemDbg::MaximumFunctionSize,1);
+             
+            if (addr == 0)return false; 
+             
             return   winhook::hook_before(addr,
                     std::bind(&Self::hookBefore, this, std::placeholders::_1));
 
