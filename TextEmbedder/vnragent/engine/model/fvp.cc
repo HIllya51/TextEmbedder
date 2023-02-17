@@ -245,9 +245,10 @@ namespace Private {
     LPCSTR text = (LPCSTR)s->stack[1]; // arg1
     if (!text || !*text)
       return true;
-    auto role = Engine::OtherRole;
-    if (text[-2] == 0 && text[-3] == 0 && text[-4] == 0) // 234 should be zero for text on the heap?
-      role = Engine::ScenarioRole;
+    //auto role = Engine::OtherRole;
+    //if (text[-2] == 0 && text[-3] == 0 && text[-4] == 0) // 234 should be zero for text on the heap?
+    //  role = Engine::ScenarioRole;
+    auto role = Engine::ScenarioRole;
 
     auto retaddr = s->stack[0]; // retaddr, there is only one retaddr anyway
     //auto split = s->ecx;
