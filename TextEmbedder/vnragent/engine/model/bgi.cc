@@ -19,7 +19,7 @@ namespace { // unnamed
 namespace ScenarioHook {
 
 namespace Private {
-  enum { Type1 = 1, Type2, Type3 } type_;
+  enum { Type1 = 1, Type2, Type3,Type_BGI3 } type_;
   int textIndex_; // the i-th of argument on the stack holding the text
 
   /**
@@ -200,6 +200,17 @@ namespace Private {
    */
   bool hookBefore(winhook::hook_stack *s)
   {
+      if (type_ == Type_BGI3) {
+          
+          DWORD retaddr = s->stack[0]; // retaddr
+          int role = Engine::ScenarioRole;
+          auto sig = Engine::hashThreadSignature(role, retaddr); 
+
+          auto data_ = EngineController::instance()->dispatchTextA((LPCSTR)s->stack[textIndex_], role, sig);
+          s->stack[textIndex_] = (DWORD)data_.constData(); 
+          return true;
+      }
+
     static QByteArray data_; // persistent storage, which makes this function not thread-safe
      
     LPCSTR text = (LPCSTR)s->stack[textIndex_]; // arg2 or arg3
@@ -216,6 +227,7 @@ namespace Private {
     DWORD retaddr = s->stack[0]; // retaddr
     int role = Engine::OtherRole;
     switch (type_) {
+     
     case Type3:
       switch (s->stack[textIndex_+1]) {
       case 1:
@@ -733,6 +745,57 @@ namespace Private {
       return 1;
   }
 
+  ulong search_bgi3(ulong startAddress, ulong stopAddress  )
+  {
+      //黄昏のフォルクローレ
+         /* .text:00C3A700 push    ebp
+          .text : 00C3A701 mov     ebp, esp
+          .text : 00C3A703 push[ebp + arg_30]
+          .text : 00C3A706 mov     edx, [ebp + arg_4]
+          .text : 00C3A709 push[ebp + arg_2C]
+          .text : 00C3A70C mov     ecx, [ebp + arg_0]
+          .text : 00C3A70F push[ebp + arg_28]
+          .text : 00C3A712 push[ebp + arg_24]
+          .text : 00C3A715 push[ebp + arg_20]
+          .text : 00C3A718 push[ebp + arg_1C]
+          .text : 00C3A71B push[ebp + arg_18]
+          .text : 00C3A71E push[ebp + arg_14]
+          .text : 00C3A721 push[ebp + arg_10]
+          .text : 00C3A724 push[ebp + arg_C]
+          .text : 00C3A727 push[ebp + arg_8]
+          .text : 00C3A72A call    loc_C3A740
+          int __stdcall sub_C3A700(
+        int a1,
+        int a2,
+        int a3,
+        int a4,
+        int a5,
+        int a6,
+        int a7,
+        int a8,
+        int a9,
+        int a10,
+        int a11,
+        int a12,
+        int a13)
+          
+          */
+      const uint8_t bytes[] = {
+                0x55,
+                0x8b,0xec,
+                0xff,0x75,0x38,
+                0x8b,0x55,0x0c,
+                0xff,0x75,0x34,
+                0x8b,0x4d,0x08,
+                0xff,0x75,0x30
+      };
+      ULONG range = std::min(ULONG(stopAddress - startAddress), ULONG(0x00300000));
+      ulong addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, startAddress + range);
+      if (addr == 0)return 0;
+      return addr;
+  }
+ 
+
 } // namespace Private
 
 // BGI2 pattern also exists in BGI1
@@ -743,7 +806,13 @@ bool attach()
     return false; 
       
   ulong addr , funaddr;
-  if ( Private::search_tayutama(startAddress, stopAddress,&addr,&funaddr)) {
+  if (addr=Private::search_bgi3(startAddress, stopAddress )) { 
+      DOUT("BGI3");
+      DOUT(addr);
+      Private::textIndex_ = 3;
+      Private::type_ = Private::Type_BGI3;
+  }
+  else if ( Private::search_tayutama(startAddress, stopAddress,&addr,&funaddr)) {
       switch (funaddr - addr) {
           // for old BGI2 game, text is arg3
       case 0x34c80 - 0x34d31: // old offset
