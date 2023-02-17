@@ -201,11 +201,10 @@ namespace Private {
   bool hookBefore(winhook::hook_stack *s)
   {
     static QByteArray data_; // persistent storage, which makes this function not thread-safe
-
+     
     LPCSTR text = (LPCSTR)s->stack[textIndex_]; // arg2 or arg3
     if (!text || !*text)
-      return true;
-
+      return true; 
     // In Type 1, split = arg8
     // In Type 2, there is no arg8. However, arg8 seems to be a good split that can differenciate choice and character name
     //DWORD split = stack->args[3]; // arg4
@@ -711,6 +710,29 @@ namespace Private {
     return 0; // failed
   }
 
+
+  bool search_tayutama(ulong startAddress, ulong stopAddress,ULONG * addr,ULONG *funaddr)
+  { 
+      const uint8_t bytes[] = {
+                  0x0f,0xbe,0xc0,  // 011d4d35  |. 0fbec0         movsx eax,al
+                  0x83,0xc0, 0xfe, // 011d4d38  |. 83c0 fe        add eax,-0x2               ;  switch (cases 2..8)
+                  0x83,0xf8
+      };
+      ULONG range = std::min(ULONG(stopAddress - startAddress), ULONG(0x00300000)); 
+      *addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, startAddress + range);
+      if (*addr == 0)return 0;
+
+      *funaddr = MemDbg::findEnclosingAlignedFunction(*addr, 0x300); // range is around 177 ~ 190
+       
+      enum : uint8_t { push_ebp = 0x55 };  // 011d4c80  /$ 55             push ebp
+      if (!(*funaddr) || *(uint8_t*)(*funaddr) != push_ebp) {
+          DOUT("vnreng:BGI2: pattern found but the function offset is invalid");
+          return 0;
+      }
+      
+      return 1;
+  }
+
 } // namespace Private
 
 // BGI2 pattern also exists in BGI1
@@ -718,32 +740,63 @@ bool attach()
 {
   ulong startAddress, stopAddress;
   if (!Engine::getProcessMemoryRange(&startAddress, &stopAddress))
-    return false;
-  ulong addr = Private::search3(startAddress, stopAddress);
-  if (addr) {
+    return false; 
+      
+  ulong addr , funaddr;
+  if ( Private::search_tayutama(startAddress, stopAddress,&addr,&funaddr)) {
+      switch (funaddr - addr) {
+          // for old BGI2 game, text is arg3
+      case 0x34c80 - 0x34d31: // old offset
+      case 0x34c50 - 0x34d05: // correction as mentioned above
+          Private::textIndex_ = 3;
+          break;
+          // for new BGI2 game since 蒼の彼方 (2014/08), text is in arg2
+      case 0x01312cd0 - 0x01312D92:
+          // For newer BGI2 game since コドモノアソビ (2015/11)
+      case 0x00A64260 - 0x00A6431C:
+          // For latest BGI2 game since タユタマ２(2016/05) by @mireado
+      case 0x00E95290 - 0x00E95349:
+          // For latest BGI2 game since 千の刃濤、桃花染の皇姫 体験版  by @mireado
+      case 0x00AF5640 - 0x00AF56FF:
+          // For latest BGI2 game since by BGI 1.633.0.0 @mireado
+      case 0x00D8A660 - 0x00D8A73A:
+          Private::textIndex_ = 2;
+          break;
+          // Artikash 8/1/2018: Looks like it's basically always 4*2. Remove error from default case: breaks SubaHibi HD. Will figure out how to do this properly if it becomes an issue.
+      default:
+          Private::textIndex_ = 2;
+          break;
+      }
+
+      Private::type_ = Private::Type3;
+      addr = funaddr;
+  }else if (addr = Private::search3(startAddress, stopAddress)) { 
     Private::type_ = Private::Type3;
     Private::textIndex_ = 2; // use arg2, name = "BGI2";
-  } else if (addr = Private::search2(startAddress, stopAddress)) {
+  } else if (addr = Private::search2(startAddress, stopAddress)) { 
     Private::type_ = Private::Type2;
     Private::textIndex_ = 3; // use arg3, name = "BGI2";
-  } else if (addr = Private::search1(startAddress, stopAddress)) {
+  } else if (addr = Private::search1(startAddress, stopAddress)) { 
     Private::type_ = Private::Type1;
     Private::textIndex_ = 3; // use arg3, name = "BGI";
-  } else
+  } 
+  else
     return false;
   if (!winhook::hook_before(addr, Private::hookBefore))
     return false;
   DOUT("type =" << Private::type_);
   return true;
 }
+
 } // namespace ScenarioHook
 } // unnamed namespace
-
+ 
 bool BGIEngine::attach()
 {
-  if (!ScenarioHook::attach())
+  if ((!ScenarioHook::attach()) )
     return false;
   HijackManager::instance()->attachFunction((ulong)::TextOutA);
+  HijackManager::instance()->attachFunction((ulong)::TextOutW);
   return true;
 }
 
