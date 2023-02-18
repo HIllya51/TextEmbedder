@@ -221,30 +221,43 @@ namespace Private {
     dispatchScenarioText(self + scenarioOffset_, retaddr);
     return true;
   }
-
-  void dispatchScenarioText_navel(char* text, ulong split)
-  {
-      // text[0] could be \0
-      enum { role = Engine::ScenarioRole };
-        
+   
+  bool hookBefore_navel(winhook::hook_stack* s)
+  {  
+      auto text = (char*)s->stack[1]; // text in arg1 
+      auto split = s->stack[0]; // retaddr 
+       
+      enum { role = Engine::ScenarioRole }; 
       auto sig = Engine::hashThreadSignature(role, split);
 
-       
+      int namesplit = 0;
+      for (int i = 0; text[i] && text[i+1]; i++) {
+          if ((text[i] == '$') && (text[i+1] == '&')) {
+              namesplit = i; break;
+          }
+      }
+      char* origin = text;
+      if (namesplit) { 
+          text = text + namesplit + 2;
+      }
+      bool needdollar = false;
+      if (text[strlen(text) - 1] == '$') {
+          needdollar = true;
+          text[strlen(text) - 1] = 0;
+      } 
       QByteArray  newData = EngineController::instance()->dispatchTextA(text, role, sig);
-         
-      //::strcpy(text, newData.constData());
-      ::memcpy(text, newData.constData(), newData.size() + 1);
-       
-  }
-  bool hookBefore_navel(winhook::hook_stack* s)
-  { 
-      DOUT((char*)s->stack[1]); 
-      auto text = (char*)s->stack[1]; // text in arg1 
-      auto split = s->stack[0]; // retaddr
-      //auto sig = Engine::hashThreadSignature(Engine::ScenarioRole, split);
-      //QByteArray  data_ = EngineController::instance()->dispatchTextA(text, Engine::ScenarioRole, sig);
-      //s->stack[1] = (ulong)data_.constData(); // reset arg1
-      dispatchScenarioText_navel(text, split);
+      if (needdollar) {
+          newData.append("$");
+      }
+      if (namesplit) {
+          QByteArray name;
+          name=name.fromRawData(origin, namesplit); 
+          name.append("$&");
+          name.append(newData);
+          newData = name;
+      }
+        
+      s->stack[1] = (ulong)newData.constData();
       return true;
   }
 
@@ -618,21 +631,75 @@ bool attach(ulong startAddress, ulong stopAddress) // attach scenario
 }
 bool attach_navel(ulong startAddress, ulong stopAddress) // attach scenario
 {
+// 通过搜索3C 9F(i > 0x9Fu shiftjis范围判断)找到。
+//   int __thiscall sub_455AB0(int this, _BYTE *a2)
+// {
+//   LPCSTR **v2; // ebx
+//   int v3; // edi
+//   _BYTE *v4; // ebp
+//   char v5; // cl
+//   _BYTE *v6; // ebx
+//   int v7; // esi
+//   unsigned __int8 v8; // al
+//   char v9; // al
+//   const CHAR **v10; // ebx
+//   bool v11; // zf
+//   const CHAR *v12; // eax
+//   unsigned int v13; // esi
+//   char *v14; // eax
+//   char *v16; // ecx
+//   unsigned __int8 v17; // al
+//   char v18; // al
+//   const CHAR ***v19; // ebp
+//   const CHAR *v20; // esi
+//   int v21; // eax
+//   unsigned __int8 v22; // al
+//   char v23; // cl
+//   int v24; // esi
+//   LPCSTR **j; // ebp
+//   char v26; // al
+//   LPCSTR **v27; // ebx
+//   char v28; // al
+//   char v29; // al
+//   char v30; // al
+//   unsigned int v31; // esi
+//   unsigned __int8 *v32; // eax
+//   char v33; // al
+//   int v34; // eax
+//   unsigned __int8 *v35; // ebx
+//   unsigned __int8 v36; // al
+//   char v37; // al
+//   const CHAR ***v38; // ebp
+//   const CHAR *v39; // esi
+//   int v40; // eax
+//   CHAR *v41; // edi
+//   char v42; // al
+//   unsigned __int8 v43; // al
+//   unsigned __int8 v44; // al
+//   unsigned __int16 *v45; // ebp
+//   unsigned __int16 *v46; // edi
+//   unsigned int v47; // eax
+//   __int16 v48; // dx
+//   unsigned __int16 *v49; // esi
+//   unsigned int v51; // [esp+14h] [ebp-4h]
+//   char *i; // [esp+1Ch] [ebp+4h]
+//   unsigned int v53; // [esp+1Ch] [ebp+4h]
+
     const uint8_t bytes[] = {
-      0x39,0x57,0x08,
-      0x0f,0x84,0x3f,0x02,0x00,0x00,
-      0x8b,0x87,0x74,0x20,0x00,0x00
+      0x50,
+      0xff,0x15,0xfc,0xd0,0x4e,0x00,
+      0x03,0xf0,
+      0x83,0xc3,0x04,
+      0xb1,0x01
     };
     ulong addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress);
     if (addr == 0)return false;
-    char xx[100];
-    sprintf(xx, "findbytes  %d", addr);
-    DOUT(xx);
+     
+    DOUT(addr);
     addr = MemDbg::findEnclosingAlignedFunction(addr);
-    if (!addr)
-        return false;
-    sprintf(xx, "findEnclosingAlignedFunction  %d", addr);
-    DOUT(xx);
+    if (!addr) return false;
+    
+    DOUT(addr);
     return winhook::hook_before(addr, Private::hookBefore_navel);
 }
 } // namespace ScenarioHook
@@ -1141,7 +1208,7 @@ bool LucifenEngine::attach()
   ulong startAddress, stopAddress;
   if (!Engine::getProcessMemoryRange(&startAddress, &stopAddress))
     return false;
-  if ((!ScenarioHook::attach(startAddress, stopAddress)))//&& (!ScenarioHook::attach_navel(startAddress, stopAddress)))
+  if ((!ScenarioHook::attach(startAddress, stopAddress)) && (!ScenarioHook::attach_navel(startAddress, stopAddress)))
     return false;
 
   if (ChoiceHook::attach(startAddress, stopAddress))
