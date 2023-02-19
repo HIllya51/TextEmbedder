@@ -22,7 +22,136 @@
 #include <qt_windows.h>
 #include"engine/model/kirikiriz.h"
 #define DEBUG "krkrz"
-#include "sakurakit/skdebug.h"   
+#include "sakurakit/skdebug.h"  
+//TJS_BEGIN_NATIVE_METHOD_DECL(/*func. name*/drawText)
+//void tTJSNI_BaseLayer::DrawText(tjs_int x, tjs_int y, const ttstr& text,
+//    tjs_uint32 color, tjs_int opa, bool aa, tjs_int shadowlevel,
+//    tjs_uint32 shadowcolor, tjs_int shadowwidth, tjs_int shadowofsx,
+//    tjs_int shadowofsy)
+/*
+int __thiscall sub_A7BE60(
+        int this,
+        int a2,
+        int a3,
+        int *a4,
+        int a5,
+        int a6,
+        char a7,
+        int a8,
+        int a9,
+        int a10,
+        int a11,
+        int a12)
+{
+  int v13; // eax
+  int v14; // eax
+  int v15; // edi
+  int v16; // edx
+  DWORD SysColor; // eax
+  int v18; // eax
+  int v19; // eax
+  int result; // eax
+  int v21; // ecx
+  int v22; // esi
+  __int64 *v23; // [esp-3Ch] [ebp-80h]
+  int v24; // [esp+10h] [ebp-34h]
+  int v25[2]; // [esp+14h] [ebp-30h] BYREF
+  int v26; // [esp+1Ch] [ebp-28h]
+  int v27; // [esp+20h] [ebp-24h]
+  int v28; // [esp+24h] [ebp-20h]
+  int v29; // [esp+28h] [ebp-1Ch]
+  int v30; // [esp+2Ch] [ebp-18h]
+  char v31; // [esp+30h] [ebp-14h]
+  int v32; // [esp+40h] [ebp-4h]
+
+  if ( !*(_DWORD *)(this + 204) )
+    sub_9BEB40();
+  v13 = *(_DWORD *)(this + 328);
+  if ( v13 )
+  {
+    v14 = v13 - 1;
+    if ( v14 )
+    {
+      if ( v14 != 3 )
+      {
+        sub_971440(&off_CBE890);
+        v32 = 0;
+        sub_9BECB0();
+      }
+      if ( a6 < 0 )
+        sub_9BEB40();
+      v15 = 14;
+    }
+    else
+    {
+      v15 = 2;
+    }
+  }
+  else
+  {
+    v15 = 3;
+  }
+  if ( *(_BYTE *)(this + 372) )
+  {
+    *(_BYTE *)(this + 372) = 0;
+    sub_A654F0(this + 356);
+  }
+  v25[0] = 0;
+  v25[1] = 0;
+  v26 = 0;
+  v30 = 0;
+  v29 = 0;
+  v28 = 0;
+  v27 = 0;
+  v31 = 0;
+  v32 = 1;
+  v16 = a5;
+  SysColor = a5;
+  if ( (a5 & 0xFF000000) != 0 )
+  {
+    if ( a5 < 0 )
+      SysColor = GetSysColor((unsigned __int8)a5);
+    v16 = (SysColor & 0xFF00) + ((unsigned __int8)SysColor << 16) + BYTE2(SysColor);
+  }
+
+  LOBYTE(v24) = *(_BYTE *)(this + 336);
+  if ( *a4 )
+  {
+    v18 = *(_DWORD *)(*a4 + 52);
+    if ( v18 )
+    {
+      v23 = (__int64 *)(this + 340);
+      if ( v18 < 2 )
+        sub_A66460(*(_DWORD **)(this + 204), v23, a2, a3, a4, v16, v15, a6, v24, a7, a8, a9, a10, a11, a12, (int)v25);
+      else
+        sub_A66840(v23, a2, a3, a4, v16, v15, a6, v24, a7, a8, a9, a10, a11, a12, v25);
+    }
+  }
+  if ( v26 )
+    *(_BYTE *)(this + 337) = 1;
+  v19 = *(_DWORD *)(this + 224);
+  if ( v19 || *(_DWORD *)(this + 228) )
+    sub_A56F90(v19, *(_DWORD *)(this + 228));
+  result = sub_A7E2F0(v25, 0);
+  v32 = -1;
+  if ( v26 )
+  {
+    v21 = v25[0];
+    do
+    {
+      v22 = *(_DWORD *)(v21 + 20);
+      result = sub_A561E0();
+      v21 = v22;
+    }
+    while ( v22 != v25[0] );
+  }
+  return result;
+}
+*/
+
+
+
+
 namespace { // unnamed
     bool SearchResourceString(LPCWSTR str)
     {
