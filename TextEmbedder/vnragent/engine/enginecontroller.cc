@@ -514,16 +514,14 @@ bool EngineController::matchFiles(const QStringList &relpaths)
 
 // - Dispatch -
 
-QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, long signature, int maxSize, bool sendAllowed, bool *timeout)
-{
+QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, long signature, int maxSize, bool sendAllowed, bool *timeout,bool fromutf8)
+{ 
   if (timeout)
     *timeout = false;
   if (data.isEmpty())
-    return data;
-
+    return data; 
   if (!d_->settings.enabled || Engine::isPauseKeyPressed())
-    return data;
-
+    return data; 
   if (!signature)
     signature = Engine::hashThreadSignature(role);
   if (!role)
@@ -532,13 +530,15 @@ QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, lon
   if (role == Engine::OtherRole
       && d_->containsTextHash(Engine::hashByteArray(data)))
     return data;
-
-  QString text = d_->decode(data);
+  QString text;
+  if (fromutf8)
+      text = QString::fromUtf8(data);
+   else
+     text= d_->decode(data);
   if (text.isEmpty())
-    return data;
+    return data; 
   if (!d_->model->enableNonDecodableCharacters && text.contains(L'\xfffd'))
-    return data;
-
+    return data; 
   QString prefix,
           suffix,
           trimmedText = D::trimText(text, &prefix, &suffix);
@@ -650,8 +650,10 @@ QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, lon
       prefixData = d_->encode(prefix);
     if (!suffix.isEmpty())
       suffixData = d_->encode(suffix);
-
-    ret = (d_->dynamicEncodingEnabled && d_->dynamicCodec) ? d_->dynamicCodec->encode(repl)
+    if (fromutf8)
+        ret = repl.toUtf8();
+    else
+        ret = (d_->dynamicEncodingEnabled && d_->dynamicCodec) ? d_->dynamicCodec->encode(repl)
         : d_->encode(repl);
     int capacity = maxSize - prefixData.size() - suffixData.size(); // excluding trailing \0
     if (capacity < ret.size()) {
@@ -671,7 +673,10 @@ QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, lon
       repl.prepend(prefix);
     if (!suffix.isEmpty())
       repl.append(suffix);
-    ret = (d_->dynamicEncodingEnabled && d_->dynamicCodec) ? d_->dynamicCodec->encode(repl)
+    if (fromutf8)
+        ret = repl.toUtf8();
+    else
+        ret = (d_->dynamicEncodingEnabled && d_->dynamicCodec) ? d_->dynamicCodec->encode(repl)
         : d_->encode(repl);
   }
 

@@ -270,6 +270,9 @@
     <ClCompile Include="engine\model\willplus3.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="engine\model\artemis.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\model\bgi.h">

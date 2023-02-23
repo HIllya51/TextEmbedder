@@ -335,6 +335,7 @@
     <ClCompile Include="..\libs\winsinglemutex\winsinglemutex.cc" />
     <ClCompile Include="engine\model\age.cc" />
     <ClCompile Include="engine\model\aoi.cc" />
+    <ClCompile Include="engine\model\artemis.cc" />
     <ClCompile Include="engine\model\bgi.cc" />
     <ClCompile Include="engine\model\circus.cc" />
     <ClCompile Include="engine\model\cmvs.cc" />

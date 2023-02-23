@@ -44,6 +44,7 @@
 #include "engine/model/lova.h"
 #include "engine/model/kirikiriz.h"
 #include"engine/model/willplus3.h"
+#include"engine/model/artemis.h"
 #define DEBUG "enginefactory"
 #include "sakurakit/skdebug.h"
 
@@ -53,7 +54,7 @@ EngineController *EngineFactory::createEngine()
 {
   static EngineModel *models[] = { // sort reversely
     new LovaEngine
-
+    ,new artemisEngine
     , new WolfRPGEngine
     , new WillPlusEngine
     , new WaffleEngine
