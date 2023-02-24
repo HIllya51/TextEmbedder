@@ -243,7 +243,7 @@ namespace { // unnamed
               
             };
             ULONG range = min(stopAddress - startAddress, 0x00300000);
-            ULONG addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress + range);
+            ULONG addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, startAddress + range);
              
             return false && addr
                 && (addr = MemDbg::findEnclosingAlignedFunction(addr))

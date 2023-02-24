@@ -40,7 +40,7 @@
 #include "engine/model/waffle.h"
 #include "engine/model/will.h"
 #include "engine/model/wolf.h"
-
+#include "engine/model/aos.h"
 #include "engine/model/lova.h"
 #include "engine/model/kirikiriz.h"
 #include"engine/model/willplus3.h"
@@ -92,6 +92,7 @@ EngineController *EngineFactory::createEngine()
     , new ARCGameEngine
     , new  KiriKiriZEngine
       ,new willplus3Engine
+      ,new aosEngine
   };
   for each (EngineModel *m in models) {
     auto p = new EngineController(m);

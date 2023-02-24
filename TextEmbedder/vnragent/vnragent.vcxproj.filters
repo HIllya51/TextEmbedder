@@ -273,6 +273,9 @@
     <ClCompile Include="engine\model\artemis.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="engine\model\aos.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine\model\bgi.h">
@@ -486,6 +489,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <ClInclude Include="engine\model\wolf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\aos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\model\artemis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

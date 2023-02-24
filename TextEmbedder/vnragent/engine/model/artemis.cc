@@ -57,7 +57,7 @@ namespace { // unnamed
 
             enum { addr_offset = 0 }; // distance to the beginning of the function, which is 0x55 (push ebp)
             ULONG range = min((ulong) (stopAddress - startAddress), (ulong)0x00300000 );
-            ULONG addr = MemDbg::matchBytes(bytes, sizeof(bytes), startAddress, stopAddress + range);
+            ULONG addr = MemDbg::matchBytes(bytes, sizeof(bytes), startAddress, startAddress + range);
              
             if (!addr) { 
                 return false;
@@ -83,7 +83,7 @@ namespace { // unnamed
                   return true;
               auto split = s->stack[0]; // retaddr
               auto sig = Engine::hashThreadSignature(Engine::ScenarioRole, split); 
-              QByteArray data_ = EngineController::instance()->dispatchTextA(text, Engine::ScenarioRole, sig,0,true,nullptr,true).constData();
+              auto data_ = EngineController::instance()->dispatchTextA(text, Engine::ScenarioRole, sig,0,true,nullptr,true).constData();
                 
               char* dd = (char*)malloc(strlen(data_) + 10);
               strcpy(dd, data_);
