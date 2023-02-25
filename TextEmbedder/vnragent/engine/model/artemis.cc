@@ -83,7 +83,7 @@ namespace { // unnamed
                   return true;
               auto split = s->stack[0]; // retaddr
               auto sig = Engine::hashThreadSignature(Engine::ScenarioRole, split); 
-              auto data_ = EngineController::instance()->dispatchTextA(text, Engine::ScenarioRole, sig,0,true,nullptr,true).constData();
+              auto data_ = EngineController::instance()->dispatchTextA(text, Engine::ScenarioRole, sig,0,true,nullptr,true,true).constData();
                 
               char* dd = (char*)malloc(strlen(data_) + 10);
               strcpy(dd, data_);

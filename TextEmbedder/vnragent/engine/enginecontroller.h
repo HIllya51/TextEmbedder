@@ -73,7 +73,7 @@ protected:
   // Interface to descendant classes, supposed to be protected
 public:
   ///  Send LPCSTR text to VNR, timeout == true iff translation timeout. MaxSize is the maximum data size excluding \0
-  QByteArray dispatchTextA(const QByteArray &data, int role, long signature = 0, int maxSize = 0, bool sendAllowed = true, bool *timeout = nullptr,bool fromutf8=false);
+  QByteArray dispatchTextA(const QByteArray &data, int role, long signature = 0, int maxSize = 0, bool sendAllowed = true, bool *timeout = nullptr,bool fromutf8=false, bool toutf8 = false,bool waitfortrans=true);
 
   ///  Send LPCWSTR text to VNR, timeout == true iff translation timeout. MaxSize is the maximum text size excluding \0
   QString dispatchTextW(const QString &text, int role, long signature = 0, int maxSize = 0, bool sendAllowed = true, bool *timeout = nullptr);

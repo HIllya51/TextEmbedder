@@ -12,8 +12,8 @@ public:
     aosEngine()
     {
         name = "AOSengine";
-        
-        encoding = Utf8Encoding;
+        enableDynamicEncoding = true;
+        //encoding = Utf8Encoding;
         matchFiles<< "*.aos";
         attachFunction = &Self::attach; 
     }

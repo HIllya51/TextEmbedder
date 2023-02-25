@@ -514,7 +514,7 @@ bool EngineController::matchFiles(const QStringList &relpaths)
 
 // - Dispatch -
 
-QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, long signature, int maxSize, bool sendAllowed, bool *timeout,bool fromutf8)
+QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, long signature, int maxSize, bool sendAllowed, bool *timeout,bool fromutf8,bool toutf8,bool waitfortrans)
 { 
   if (timeout)
     *timeout = false;
@@ -594,6 +594,7 @@ QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, lon
       sent = true;
     }
   }
+  if (!waitfortrans)return "";
   if (sent && needsTranslation)
     repl = p->waitForTranslation(hash, role, &language);
 
@@ -673,7 +674,7 @@ QByteArray EngineController::dispatchTextA(const QByteArray &data, int role, lon
       repl.prepend(prefix);
     if (!suffix.isEmpty())
       repl.append(suffix);
-    if (fromutf8)
+    if ( toutf8)
         ret = repl.toUtf8();
     else
         ret = (d_->dynamicEncodingEnabled && d_->dynamicCodec) ? d_->dynamicCodec->encode(repl)

@@ -78,44 +78,10 @@ namespace { // unnamed
             };
             auto charaddr=MemDbg::findBytes(bytesaddress, sizeof(bytesaddress), addr, addr + 0x1000);
             if (charaddr == 0)return false;
-            auto ok=winhook::hook_before(addr,std::bind(&Self::hookBefore, this, std::placeholders::_1, *(int*)(charaddr-4)));
-            if (!ok)return false;
-
-            //const BYTE bytesname[] = {
-            //    //memory blue 
-            //    //int _usercall sub_B629D0@<eax>(CHAR * a1@<esi>, int x, int y)
-            //    //char __usercall sub_B63620@<al>(CHAR *a1@<eax>, int a2, int a3, int a4, int a5)
-            //    //这两者都可以
-            //       0x51,
-            //       0x53,
-            //       0x55,
-            //       0x8b,0x6c,0x24,0x10,
-            //       0x56,
-            //       0x57,
-            //       0x8b,0xf8,
-            //       0x66,0x8b,0x45,0x26 
-            //};
-            //  
-            //addr = MemDbg::findBytes(bytes, sizeof(bytes), startAddress, stopAddress + range); 
-            //if (addr) { 
-            //    winhook::hook_before(addr, std::bind(&Self::hookBefore_NameRole, this, std::placeholders::_1));
-            //}  
-            return ok;
+             
+            return winhook::hook_before(addr, std::bind(&Self::hookBefore, this, std::placeholders::_1, *(int*)(charaddr - 4)));
         }
-         
-        bool hookBefore_NameRole(winhook::hook_stack* s)
-        {   
-              auto text = (char*)s->eax; // text in arg1
-               
-              if (!text || !*text)
-                  return true;
-              auto split = s->stack[0]; // retaddr
-              auto sig = Engine::hashThreadSignature(Engine::NameRole, split);
-              auto data_ = EngineController::instance()->dispatchTextA(text, Engine::NameRole, sig ).constData();
-                 
-              s->eax = (ulong)data_;
-            return true;
-        }
+          
         bool hookBefore(winhook::hook_stack* s, ULONG charaddr)
         {
             //auto text = (char*)s->stack[2]; // text in arg1
@@ -139,16 +105,16 @@ namespace { // unnamed
             }
              
             auto sig = Engine::hashThreadSignature(Engine::ScenarioRole, split);
-            auto data_ = EngineController::instance()->dispatchTextA(QByteArray::fromRawData(usetext, match-usetext), Engine::ScenarioRole, sig) ;
+            auto data_ = EngineController::instance()->dispatchTextA(QByteArray::fromRawData(usetext, match-usetext), Engine::ScenarioRole, sig, 0, true, nullptr, false ,false,true) ;
             //由于编码问题，无法正常显示。故只做提取了。
-             /*
-            QByteArray prefix = QByteArray::fromRawData(text, usetext - text);
-            prefix.append(data_);
-            prefix.append(match);
-            DOUT(data_.constData());
-            DOUT(prefix.constData()); 
-            strcpy(text, prefix.constData()); 
-            */
+            // 
+            //QByteArray prefix = QByteArray::fromRawData(text, usetext - text);
+            //prefix.append(data_);
+            //prefix.append(match);
+            //DOUT(data_.constData());
+            //DOUT(prefix.constData()); 
+            ////strcpy(text, prefix.constData()); 
+            //(*(int*)charaddr) = (ulong)prefix.constData();
             return true;
         }
          
